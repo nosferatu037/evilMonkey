@@ -43,7 +43,8 @@ void DrawEngine::drawSprite(int index, int posx, int posy)
 	// draw the image
 
 	const char *sprite = &spriteImage[index];
-	printw("$");
+	//printw("$");
+	printw("%c",*sprite);
 	refresh();
 }
 
