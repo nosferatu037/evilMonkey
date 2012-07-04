@@ -6,6 +6,8 @@
  */
 #include <iostream>
 #include <cmath>
+#include <curses.h>
+
 #include "game.h"
 #include "kbhit.h"
 #include "timeGetTime.h"
@@ -16,15 +18,22 @@ using namespace std;
 
 bool Game::run(void)
 {
+	posx = 5;
+	posy = 5;
+
 	drawArea.createSprite(0, '$');
-	//drawArea.drawSprite(0, 10, 5);
-	char key = ' ';
+	drawArea.drawSprite(0, posx, posy);
+	int key = ' ';
 
 	startTime = timeGetTime();
 	frameCount = 0;
 	lastTime = 0;
 
-	posx = 0;
+	initscr();
+	curs_set(0); //Hide the cursor
+	//cbreak();
+	//noecho();
+	keypad(stdscr, TRUE);
 
 	while (key != 'q')
 	{
@@ -33,9 +42,29 @@ bool Game::run(void)
 			timerUpdate();
 
 		}
-		drawArea.eraseSprite(5,posx);
-		drawArea.drawSprite(0, 5, posx);
-		posx++;
+
+		
+		//Erase the sprite at the old position
+		drawArea.eraseSprite(posx, posy);
+
+		//Modify position
+		switch (key)
+		{
+			case KEY_UP:
+				posy--;
+				break;
+			case KEY_DOWN:
+				posy++;
+				break;
+			case KEY_LEFT:
+				posx--;
+				break;
+			case KEY_RIGHT:
+				posx++;
+				break;
+		}
+		//Draw at the new position
+		drawArea.drawSprite(0, posx, posy);
 
 
 		//cout << "here is what you pressed: "<< key << endl;
@@ -49,11 +78,11 @@ bool Game::run(void)
 }
 
 
-bool Game::getInput(char *c)
+bool Game::getInput(int *c)
 {
-	if (kbhit())
+	*c = getch(); //Calling getch directly. No need for silly kbhit. getch will tell whether a key was pressed or not.
+	if (*c != ERR)
 	{
-		*c = getchar();
 		return true;
 	}
 
