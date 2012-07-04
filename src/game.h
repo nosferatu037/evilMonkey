@@ -16,7 +16,7 @@ public:
 	bool run(void);
 
 protected:
-	bool getInput(char *c);
+	bool getInput(int *c);
 	void timerUpdate(void);
 
 private:
@@ -25,6 +25,7 @@ private:
 	double lastTime;
 
 	int posx;
+	int posy;
 
 	DrawEngine drawArea;
 
