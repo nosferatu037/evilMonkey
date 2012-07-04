@@ -38,18 +38,18 @@ void DrawEngine::deleteSprite(int index){
 void DrawEngine::drawSprite(int index, int posx, int posy)
 {
 	// go to correct location
-	gotoxy(posx, posy);
+	gotoxy(posy, posx);
 
 	// draw the image
 
 	const char *sprite = &spriteImage[index];
-	printw(sprite);
+	printw("$");
 	refresh();
 }
 
 void DrawEngine::eraseSprite(int posx, int posy)
 {
-	gotoxy(posx,posy);
+	gotoxy(posy,posx);
 	printw(" ");
 	refresh();
 }
