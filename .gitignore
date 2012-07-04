@@ -11,5 +11,5 @@
 *.la
 *.a
 
-bin/release
-bin/debug
+bin/release/
+bin/debug/
